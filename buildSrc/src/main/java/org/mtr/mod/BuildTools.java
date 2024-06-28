@@ -165,9 +165,15 @@ public class BuildTools {
 	public void copyBuildFile(boolean excludeAssets) throws IOException {
 		final Path directory = path.getParent().resolve("build/release");
 		Files.createDirectories(directory);
-		Files.copy(path.resolve(String.format("build/libs/%s-%s%s.jar", loader, version, loader.equals("fabric") ? "" : "-all")), directory.resolve(String.format("MTR-%s-%s+%s%s.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(path.resolve(String.format("build/libs/%s-%s-dev.jar", loader, version)), directory.resolve(String.format("MTR-%s-%s+%s%s-dev.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(path.resolve(String.format("build/libs/%s-%s-source.jar", loader, version)), directory.resolve(String.format("MTR-%s-%s+%s%s-source.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
+		// Files.copy(path.resolve(String.format("build/libs/%s-%s%s.jar", loader, version, loader.equals("fabric") ? "" : "-all")), directory.resolve(String.format("MTR-%s-%s+%s%s.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
+		if(loader.equals("fabric")){
+			Files.copy(path.resolve(String.format("build/devlibs/%s-%s-dev.jar", loader, version)), directory.resolve(String.format("MTR-%s-%s+%s%s.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(path.resolve(String.format("build/devlibs/%s-%s-sources.jar", loader, version)), directory.resolve(String.format("MTR-%s-%s+%s%s-sources.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
+		}
+		else{
+			Files.copy(path.resolve(String.format("build/libs/%s-%s-dev.jar", loader, version)), directory.resolve(String.format("MTR-%s-%s+%s%s.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(path.resolve(String.format("build/libs/%s-%s-sources.jar", loader, version)), directory.resolve(String.format("MTR-%s-%s+%s%s-sources.jar", loader, version, minecraftVersion, excludeAssets ? "-server" : "")), StandardCopyOption.REPLACE_EXISTING);
+		}
 	}
 
 	private static JsonElement getJson(String url) {
