@@ -68,6 +68,15 @@ build {
 	}
 }
 
+jar {
+	exclude excludeAssets == "true" ? "assets" : "abc123"
+	archiveClassifier = 'dev'
+}
+
+sourcesJar {
+	exclude excludeAssets == "true" ? "assets" : "abc123"
+}
+
 shadowJar {
 	exclude excludeAssets == "true" ? "assets" : "abc123"
 }
